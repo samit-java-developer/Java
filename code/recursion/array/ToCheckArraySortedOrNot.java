@@ -15,14 +15,14 @@ public class ToCheckArraySortedOrNot {
 		if (index == size - 1) {
 			return true;
 		}
-		if ((index + 1) >= size) {
-			return false;
-		}
+//		if ((index + 1) >= size) {
+//			return false;
+//		}
 		return arr[index] <= arr[index + 1] && checkSorted2(arr, index + 1, size);
 	}
 
 	public static void main(String[] args) {
-		int[] arr = { 1, 2, 3, 5, 5 };
+		int[] arr = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 		System.out.println(checkSorted2(arr, 0, arr.length));
 	}
 

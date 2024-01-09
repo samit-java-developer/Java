@@ -2,7 +2,7 @@ package code.threaddemo;
 
 class Q {
 	int num;
-	boolean valueSet = false;
+	boolean valueSet = true;
 
 	public synchronized void put(int num) {
 		while (valueSet) {
@@ -37,8 +37,8 @@ class Producer implements Runnable {
 
 	public Producer(Q q) {
 		this.q = q;
-		Thread t = new Thread(this, "Producer");
-		t.start();
+		// Thread t = new Thread(this, "Producer");
+		// t.start();
 	}
 
 	@Override
@@ -60,8 +60,8 @@ class Consumer implements Runnable {
 
 	public Consumer(Q q) {
 		this.q = q;
-		Thread t = new Thread(this, "Consumer");
-		t.start();
+		// Thread t = new Thread(this, "Consumer");
+		// t.start();
 	}
 
 	@Override
@@ -82,7 +82,9 @@ public class InterThread {
 	public static void main(String[] args) {
 
 		Q q = new Q();
-		new Producer(q);
-		new Consumer(q);
+		Thread t1 = new Thread(new Producer(q), "Producer");
+		Thread t2 = new Thread(new Consumer(q), "Consumer");
+		t1.start();
+		t2.start();
 	}
 }

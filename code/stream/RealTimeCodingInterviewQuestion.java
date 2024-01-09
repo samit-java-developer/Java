@@ -1,14 +1,21 @@
 package code.stream;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.DoubleSummaryStatistics;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class RealTimeCodingInterviewQuestion {
 
 	static List<Employee> employeeList = new ArrayList<Employee>();
 	static {
+		System.out.println("Employee loading started.....");
+
 		employeeList.add(new Employee(111, "Jiya Brein", 32, "Female", "HR", 2011, 25000.0));
 		employeeList.add(new Employee(122, "Paul Niksui", 25, "Male", "Sales And Marketing", 2015, 13500.0));
 		employeeList.add(new Employee(133, "Martin Theron", 29, "Male", "Infrastructure", 2012, 18000.0));
@@ -27,6 +34,7 @@ public class RealTimeCodingInterviewQuestion {
 		employeeList.add(new Employee(266, "Sanvi Pandey", 26, "Female", "Product Development", 2015, 28900.0));
 		employeeList.add(new Employee(277, "Anuj Chettiar", 31, "Male", "Product Development", 2012, 35700.0));
 
+		System.out.println("Employee loading ended....");
 	}
 
 	public static void getCountOfMaleFemale(List<Employee> employeeList) {
@@ -36,18 +44,82 @@ public class RealTimeCodingInterviewQuestion {
 	}
 
 	public static void getDepartmentName(List<Employee> employeeList) {
-		employeeList.stream().map(Employee::getDepartment).distinct().forEach(e->System.out.println(e+", "));
+		employeeList.stream().map(Employee::getDepartment).distinct().forEach(e -> System.out.println(e + ", "));
 
+	}
+
+	public static void getTheAvergaeAgeOfFemaleAndMale(List<Employee> employeeList) {
+		Map<String, Double> map = employeeList.stream()
+				.collect(Collectors.groupingBy(Employee::getGender, Collectors.averagingInt(Employee::getAge)));
+		System.out.println(map);
+	}
+
+	public static void getTheNameOfEmployeeAfter2015(List<Employee> employeeList) {
+		Set<String> namesOfEmployee = employeeList.stream().filter(e -> e.getYearOfJoining() >= 2015)
+				.map(e -> e.getName()).collect(Collectors.toCollection(LinkedHashSet::new));
+		System.out.println(namesOfEmployee);
+	}
+
+	public static void getOldestEmployee(List<Employee> employeeList) {
+		Optional<Employee> oldestEmployee = employeeList.stream().sorted((o1, o2) -> o2.getAge() - o1.getAge())
+				.findFirst();
+
+		System.out.println("Name : " + oldestEmployee.get().getName());
+		System.out.println("Age : " + oldestEmployee.get().getAge());
+		System.out.println("Department : " + oldestEmployee.get().getDepartment());
+
+	}
+
+	// *****
+	public static void getTotalAndAverageSalary(List<Employee> employeeList) {
+		DoubleSummaryStatistics empSalary = employeeList.stream()
+				.collect(Collectors.summarizingDouble(Employee::getSalary));
+		System.out.println("Average Salary = " + empSalary.getAverage());
+		System.out.println("Total Salary = " + empSalary.getSum());
+	}
+
+	public static void getHighestExperiencedEmployee(List<Employee> employeeList) {
+//		Optional<Employee> seniorEmp = employeeList.stream()
+//				.sorted((o1, o2) -> (int) (o1.getYearOfJoining() - o2.getYearOfJoining())).findFirst();
+//		
+//		
+		Optional<Employee> seniorEmp = employeeList.stream().sorted(Comparator.comparingInt(Employee::getYearOfJoining))
+				.findFirst();
+
+		System.out.println(seniorEmp.get());
 	}
 
 	public static void main(String[] args) {
 
+		System.out.println("-------------------------------------\n");
 		System.out.println("Get Count of Male and Female-:");
 		getCountOfMaleFemale(employeeList);
 
+		System.out.println("-------------------------------------\n");
 		System.out.println("Department Name-: ");
 		getDepartmentName(employeeList);
+		System.out.println("-------------------------------------\n");
 
+		System.out.println("Average age of Male and Female....");
+		getTheAvergaeAgeOfFemaleAndMale(employeeList);
+		System.out.println("-------------------------------------\n");
+
+		System.out.println("Get the Names of employees who joined after 2015.");
+		getTheNameOfEmployeeAfter2015(employeeList);
+		System.out.println("-------------------------------------\n");
+
+		System.out.println("Find out the oldest employee, his/her age and department");
+		getOldestEmployee(employeeList);
+		System.out.println("-------------------------------------\n");
+
+		System.out.println("Find out the average and total salary of the organization.");
+		getTotalAndAverageSalary(employeeList);
+		System.out.println("-------------------------------------\n");
+		
+		
+		System.out.println("Find out the highest experienced employees in the organization");
+		getHighestExperiencedEmployee(employeeList);
+		System.out.println("-------------------------------------\n");
 	}
 
 	static class Employee {

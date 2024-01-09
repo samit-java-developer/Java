@@ -4,7 +4,7 @@ public class Stream {
 
 	public static void main(String[] args) {
 		StringBuilder str = new StringBuilder("");
-		String result = skipApple("baccappled");
+		String result = skip("baccappled");
 		System.out.println(result);
 	}
 
@@ -25,9 +25,9 @@ public class Stream {
 		}
 		char ch = input.charAt(0);
 		if (ch != 'a') {
-			return ch + skip(input);
+			return ch + skip(input.substring(1));
 		} else {
-			return skip(input);
+			return skip(input.substring(1));
 		}
 	}
 
