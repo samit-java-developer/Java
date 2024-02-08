@@ -14,7 +14,7 @@ public class Maze {
 			}
 		}
 		// arr[1][1] = false;
-		pathReturns("", 0, 0, arr, 0, result);
+		pathPrint("", 0, 0, arr, 0, result);
 	}
 
 	static int count(int row, int col) {

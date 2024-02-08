@@ -21,8 +21,17 @@ public class FrequencyInString {
 		// Without order
 		Stream.of(input.split("")).collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet()
 				.stream().forEach(System.out::print);
+		
+		System.out.println("\n------");
+		
+		input.chars().mapToObj(ch->(char)ch).collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().forEach(e->System.out.print(e+" "));
 
 		System.out.println("\n------");
+		input.chars().mapToObj(ch -> (char) ch)
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().stream()
+				.sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue())).forEach(e -> System.out.print(e + " "));
+		;
+		
 		// With Order
 		Stream.of(input.split(""))
 				.collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()))
@@ -36,7 +45,8 @@ public class FrequencyInString {
 		System.out.println("\n------");
 		// charactersInOrderOfMostOccurring
 		Stream.of(input.split("")).collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet()
-				.stream().sorted(Map.Entry.comparingByValue((o1, o2) -> o2.compareTo(o1))).forEach(System.out::print);
+				.stream().sorted(Map.Entry.comparingByValue((o1, o2) -> o2.compareTo(o1))).forEach(e->System.out.println(e+" "));
+
 
 		// Q1
 		String input2 = "samitverma";

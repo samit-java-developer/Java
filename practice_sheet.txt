@@ -1,0 +1,47 @@
+231. Power of Two
+---------------------
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        if (n==0){
+            return false;
+        }
+        if (n==1){
+            return true;
+        }
+        if (n%2==0){
+            return isPowerOfTwo(n/2);
+        }else{
+            return false;
+        }
+    }
+}
+
+ public boolean isPowerOfThree(int n) {
+         if (n==0){
+            return false;
+        }
+        if (n==1){
+            return true;
+        }
+        if (n%3==0){
+            return isPowerOfThree(n/3);
+        }else{
+            return false;
+        }
+    }
+
+1342. Number of Steps to Reduce a Number to Zero
+
+class Solution {
+    public int numberOfSteps(int num) {
+        if (num <= 0) {
+            return 0;
+        }
+        int count = 1;
+        if (num % 2 == 0) {
+            return count + numberOfSteps(num / 2);
+        } else {
+            return count + numberOfSteps(num - 1);
+        }
+    }
+}
